@@ -1,4 +1,4 @@
-import { MessageCircle, Search } from "lucide-react";
+import { MessageCircle, Search, User } from "lucide-react";
 import Link from "next/link";
 
 export default function Sidebar() {
@@ -22,6 +22,15 @@ export default function Sidebar() {
           Messages
         </Link>
       </li>
+
+      <li>
+        <Link href={"/profile"} className="flex items-center gap-2">
+          <User />
+          Profile
+        </Link>
+      </li>
+
+      <li>Post</li>
     </ol>
   );
 }
