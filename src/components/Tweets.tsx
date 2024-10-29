@@ -1,10 +1,14 @@
-import { TWEETS } from "@/data/test-data";
 import Tweet from "./Tweet";
+import { Tweet as ITweet } from "../types/tweet.interface";
 
-export default function Tweets() {
+type TweetsProps = {
+  tweets: ITweet[];
+};
+
+export default function Tweets({ tweets }: TweetsProps) {
   return (
     <div>
-      {TWEETS.map((tweet) => (
+      {tweets.map((tweet) => (
         <Tweet key={tweet.id} tweet={tweet} />
       ))}
     </div>
