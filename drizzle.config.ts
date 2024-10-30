@@ -1,7 +1,10 @@
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
-  schema: ["./src/db/schemas/tweet.schema.ts"],
+  schema: [
+    "./src/db/schemas/tweet.schema.ts",
+    "./src/db/schemas/user.schema.ts",
+  ],
   out: "",
   dialect: "postgresql",
   dbCredentials: {
