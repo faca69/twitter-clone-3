@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
+import { submitTweet } from "@/app/actions/create-tweet";
 
 export default function ComposeTweet() {
   const [value, setValue] = useState("");
@@ -18,10 +19,16 @@ export default function ComposeTweet() {
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </div>
-      <div className="w-full flex flex-col items-end">
+      <form
+        className="w-full flex flex-col items-end"
+        action={async (formData) => {
+          await submitTweet(formData);
+        }}
+      >
         <Textarea
           className="w-full border-t-0 border-l-0 border-r-0 "
           placeholder="What is happening?"
+          name="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
@@ -31,7 +38,7 @@ export default function ComposeTweet() {
         >
           Post
         </Button>
-      </div>
+      </form>
     </div>
   );
 }

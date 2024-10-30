@@ -1,12 +1,15 @@
-import { TWEETS } from "@/data/test-data";
+import { getTweets } from "@/services/tweets.service";
 import ComposeTweet from "./ComposeTweet";
 import Tweets from "./Tweets";
 
-export default function ForYou() {
+import { Tweet as ITweet } from "../types/tweet.interface";
+
+export default async function ForYou() {
+  const tweets = await getTweets();
   return (
     <div>
       <ComposeTweet />
-      <Tweets tweets={TWEETS} />
+      <Tweets tweets={tweets as unknown as ITweet[]} />
     </div>
   );
 }

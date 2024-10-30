@@ -1,9 +1,13 @@
 import { db } from "@/db";
-import { TweetModel, tweets } from "@/db/schemas/tweet.schema";
+import {
+  TweetCreateModel,
+  TweetModel,
+  tweets,
+} from "@/db/schemas/tweet.schema";
 import { eq, ilike } from "drizzle-orm";
 
 export const find = async (
-  searchTerm: string | null
+  searchTerm?: string | null
 ): Promise<TweetModel[]> => {
   try {
     return db.query.tweets.findMany({
@@ -23,4 +27,12 @@ export const findOneById = (id: string) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const create = async (tweet: TweetCreateModel) => {
+  return db
+    .insert(tweets)
+    .values(tweet)
+    .returning()
+    .then((res) => res?.[0]);
 };
