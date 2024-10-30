@@ -1,15 +1,10 @@
-import { TWEETS } from "@/data/test-data";
+import { getTweets } from "@/services/tweets.service";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const searchTerm = req.nextUrl.searchParams?.get("searchTerm");
 
-  if (!searchTerm) {
-    return NextResponse.json(TWEETS);
-  }
+  const tweets = await getTweets(searchTerm);
 
-  const filteredTweets = TWEETS.filter((tweet) =>
-    tweet.text.toLowerCase().includes(searchTerm?.toLowerCase())
-  );
-  return NextResponse.json(filteredTweets);
+  return NextResponse.json(tweets);
 }
