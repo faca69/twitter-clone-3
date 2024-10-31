@@ -1,6 +1,7 @@
-import Feed from "@/components/Feed";
+import { redirect } from "next/navigation";
 import React from "react";
 
 export default function Home() {
-  return <Feed />;
+  redirect("/feed/for-you");
+  return <h1>home</h1>;
 }

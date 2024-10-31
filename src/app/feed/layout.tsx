@@ -1,23 +1,33 @@
 "use client";
-import { TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
-import { Tabs } from "./ui/tabs";
-import ForYou from "./ForYou";
-import Following from "./Following";
+
+import { Tabs } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
+import { useRouter } from "next/navigation";
+import { ReactNode, useState } from "react";
 
 enum TabsValue {
   ForYou = "for-you",
   Following = "following",
 }
 
-export default function Feed() {
+type FeedLayoutProps = {
+  children: ReactNode;
+  compose: ReactNode;
+};
+
+export default function FeedLayout({ children, compose }: FeedLayoutProps) {
   const [selectedTab, setSelectedTab] = useState(TabsValue.ForYou);
+
+  const router = useRouter();
 
   return (
     <Tabs
       defaultValue={TabsValue.ForYou}
-      onValueChange={(value) => setSelectedTab(value as TabsValue)}
+      onValueChange={(value) => {
+        setSelectedTab(value as TabsValue);
+        router.push(`/feed/${value}`);
+      }}
     >
       <TabsList className="border-b border-zinc-800">
         <TabsTrigger
@@ -43,13 +53,11 @@ export default function Feed() {
           Following
         </TabsTrigger>
 
-        <TabsContent value={TabsValue.ForYou}>
-          <ForYou />
-        </TabsContent>
-        <TabsContent value={TabsValue.Following}>
-          {/* <Following /> */}
-        </TabsContent>
+        <TabsContent value={TabsValue.ForYou}>{children}</TabsContent>
+        <TabsContent value={TabsValue.Following}>{children}</TabsContent>
       </TabsList>
+
+      {compose}
     </Tabs>
   );
 }

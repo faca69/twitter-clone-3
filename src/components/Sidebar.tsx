@@ -30,7 +30,14 @@ export default function Sidebar() {
         </Link>
       </li>
 
-      <li>Post</li>
+      <li>
+        <Link
+          className="w-full bg-blue-500 p-4 rounded-full text-center font-bold cursor-pointer block"
+          href={"/feed/compose"}
+        >
+          Post
+        </Link>
+      </li>
     </ol>
   );
 }
