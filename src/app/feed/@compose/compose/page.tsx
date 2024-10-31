@@ -15,7 +15,7 @@ export default function Modal() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Compose a tweet</DialogTitle>
-          <ComposeTweet />
+          <ComposeTweet onSubmit={() => router.back()} />
         </DialogHeader>
       </DialogContent>
     </Dialog>
