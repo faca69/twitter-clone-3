@@ -9,7 +9,7 @@ export default async function ForYou() {
   return (
     <div>
       <ComposeTweet />
-      <Tweets tweets={tweets as unknown as ITweet[]} />
+      <Tweets tweets={tweets} />
     </div>
   );
 }

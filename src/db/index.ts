@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { tweets } from "./schemas/tweet.schema";
+import { tweets, tweetsRelations } from "./schemas/tweet.schema";
 import { users } from "./schemas/user.schema";
 
 const client = postgres({
@@ -11,8 +11,12 @@ const client = postgres({
   port: 5432,
 });
 
-export const db = drizzle(client, {
-  schema: { tweets, users },
+export const db = drizzle<{
+  tweets: typeof tweets;
+  tweetsRelations: typeof tweetsRelations;
+  users: typeof users;
+}>(client, {
+  schema: { tweets, users, tweetsRelations },
   logger: true,
 });
 

@@ -1,8 +1,9 @@
 import Tweet from "./Tweet";
 import { Tweet as ITweet } from "../types/tweet.interface";
+import { TweetExtendedModel } from "@/db/schemas/tweet.schema";
 
 type TweetsProps = {
-  tweets: ITweet[];
+  tweets: TweetExtendedModel[];
 };
 
 export default function Tweets({ tweets }: TweetsProps) {

@@ -1,20 +1,37 @@
 import { Tweet as ITweet } from "@/types/tweet.interface";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
-import { ArrowDownUp, Heart, MessageCircle } from "lucide-react";
+import {
+  ArrowDownUp,
+  ArrowUpDownIcon,
+  Heart,
+  MessageCircle,
+} from "lucide-react";
 import { Link as LinkLucide } from "lucide-react";
 import Link from "next/link";
 import { formatDate } from "@/lib/format-date";
+import { TweetType } from "@/types/tweet-type.enum";
+import { cn } from "@/lib/utils";
+import { TweetExtendedModel } from "@/db/schemas/tweet.schema";
 
 type TweetProps = {
-  tweet: ITweet;
+  tweet: TweetExtendedModel;
 };
 
 export default function Tweet({ tweet }: TweetProps) {
   return (
-    <div className="flex flex-row p-4 gap-4 border-b border-zinc-800">
-      <div>
-        <Link href={tweet.author?.username ?? "/"}>
+    <div
+      className={cn("flex flex-col", tweet.type === TweetType.Tweet && "pt-4")}
+    >
+      {tweet.type === TweetType.Reply && (
+        <div className="flex flex-row gap-2 items-center text-sm font-bold text-zinc-500 ml-10 mt-5 mb-2 ">
+          <ArrowUpDownIcon className="size-5 cursor-pointer text-zinc-500" />
+          Reply to &ldquo; {tweet.repliedTo?.text} &ldquo;
+        </div>
+      )}
+      <div className="flex flex-row pl-4 pr-4 pb-4 gap-4 border-b border-zinc-800">
+        <div>
+          {/* <Link href={tweet.author?.username ?? "/"}> */}
           <Avatar>
             <AvatarImage
               src="https://github.com/shadcn.png"
@@ -22,51 +39,57 @@ export default function Tweet({ tweet }: TweetProps) {
             />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-        </Link>
-      </div>
-
-      <div className="w-full flex flex-col">
-        <div className="flex flex-row gap-2 items-center">
-          <h1 className="font-bold">
-            <Link href={tweet.author?.username || "/"}>
-              {tweet.author?.name}
-            </Link>
-          </h1>
-
-          <h2 className="text-zinc-500 text-sm">
-            @
-            <Link href={tweet.author?.username || "/"}>
-              {tweet.author?.username}
-            </Link>
-          </h2>
-          <div className="text-zinc-500 flex items-center justify-center">
-            <div>-</div>
-          </div>
-
-          <p className="text-zinc-500 hover:underline">
-            <Link href={`/tweet/${tweet.id}`}>
-              {formatDate(tweet.createdAt)}
-            </Link>
-          </p>
+          {/* </Link> */}
         </div>
-        <p>{tweet.text}</p>
-        <div className="flex flex-row gap-4 items-center mt-2 justify-between">
+
+        <div className="w-full flex flex-col">
           <div className="flex flex-row gap-2 items-center">
-            <MessageCircle className="size-7 text-zinc-500 cursor-pointer" />
-            <span>1</span>
+            <h1 className="font-bold">
+              {/* <Link href={tweet.author?.username || "/"}>
+                {tweet.author?.name}
+              </Link> */}
+            </h1>
+
+            <h2 className="text-zinc-500 text-sm">
+              @
+              {/* <Link href={tweet.author?.username || "/"}>
+                {tweet.author?.username}
+              </Link> */}
+            </h2>
+            <div className="text-zinc-500 flex items-center justify-center">
+              <div>-</div>
+            </div>
+
+            <p className="text-zinc-500 hover:underline">
+              <Link href={`/tweet/${tweet.id}`}>
+                {formatDate(tweet.createdAt)}
+              </Link>
+            </p>
           </div>
-          <div className="flex flex-row gap-2 items-center">
-            <ArrowDownUp className="size-7 text-zinc-500 cursor-pointer" />
-            <span>3</span>
-          </div>
-          <div className="flex flex-row gap-2 items-center">
-            <Heart className="size-7 text-zinc-500 cursor-pointer" />
-            <span>9</span>
-          </div>
-          <div className="flex flex-row gap-2 items-center">
-            <Link href={`/tweet/${tweet.id}`}>
-              <LinkLucide className="size-7 text-zinc-500 cursor-pointer" />
-            </Link>
+          <p>{tweet.text}</p>
+          <div className="flex flex-row gap-4 items-center mt-2 justify-between">
+            <div>
+              <Link
+                href={`/feed/compose?type=${TweetType.Reply}&repliedToId=${tweet.id}`}
+                className="flex flex-row gap-2 items-center"
+              >
+                <MessageCircle className="size-7 text-zinc-500 cursor-pointer" />
+                <span>1</span>
+              </Link>
+            </div>
+            <div className="flex flex-row gap-2 items-center">
+              <ArrowDownUp className="size-7 text-zinc-500 cursor-pointer" />
+              <span>3</span>
+            </div>
+            <div className="flex flex-row gap-2 items-center">
+              <Heart className="size-7 text-zinc-500 cursor-pointer" />
+              <span>9</span>
+            </div>
+            <div className="flex flex-row gap-2 items-center">
+              <Link href={`/tweet/${tweet.id}`}>
+                <LinkLucide className="size-7 text-zinc-500 cursor-pointer" />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
