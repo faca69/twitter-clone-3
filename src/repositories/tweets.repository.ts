@@ -4,7 +4,7 @@ import {
   TweetModel,
   tweets,
 } from "@/db/schemas/tweet.schema";
-import { eq, ilike } from "drizzle-orm";
+import { desc, eq, ilike } from "drizzle-orm";
 
 export const find = async (
   searchTerm?: string | null
@@ -12,8 +12,11 @@ export const find = async (
   try {
     return db.query.tweets.findMany({
       where: ilike(tweets.text, `%${searchTerm ?? ""}%`),
+      orderBy: desc(tweets.createdAt),
       with: {
         repliedTo: true,
+        replies: true,
+        reposts: true,
       },
     });
   } catch (error) {

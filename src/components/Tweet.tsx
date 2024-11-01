@@ -1,18 +1,13 @@
-import { Tweet as ITweet } from "@/types/tweet.interface";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
-import {
-  ArrowDownUp,
-  ArrowUpDownIcon,
-  Heart,
-  MessageCircle,
-} from "lucide-react";
+import { CornerRightUp, Heart, MessageCircle, Repeat } from "lucide-react";
 import { Link as LinkLucide } from "lucide-react";
 import Link from "next/link";
 import { formatDate } from "@/lib/format-date";
 import { TweetType } from "@/types/tweet-type.enum";
 import { cn } from "@/lib/utils";
 import { TweetExtendedModel } from "@/db/schemas/tweet.schema";
+import { repostTweet } from "@/app/actions/repost-tweet.action";
 
 type TweetProps = {
   tweet: TweetExtendedModel;
@@ -25,8 +20,15 @@ export default function Tweet({ tweet }: TweetProps) {
     >
       {tweet.type === TweetType.Reply && (
         <div className="flex flex-row gap-2 items-center text-sm font-bold text-zinc-500 ml-10 mt-5 mb-2 ">
-          <ArrowUpDownIcon className="size-5 cursor-pointer text-zinc-500" />
+          <CornerRightUp className="size-5 cursor-pointer text-zinc-500" />
           Reply to &ldquo; {tweet.repliedTo?.text} &ldquo;
+        </div>
+      )}
+
+      {tweet.type === TweetType.Repost && (
+        <div className="flex flex-row gap-2 items-center text-sm font-bold text-zinc-500 ml-10 mt-5 mb-2 ">
+          <Repeat className="size-5 cursor-pointer text-zinc-500" />
+          John Doe reposted
         </div>
       )}
       <div className="flex flex-row pl-4 pr-4 pb-4 gap-4 border-b border-zinc-800">
@@ -74,13 +76,17 @@ export default function Tweet({ tweet }: TweetProps) {
                 className="flex flex-row gap-2 items-center"
               >
                 <MessageCircle className="size-7 text-zinc-500 cursor-pointer" />
-                <span>1</span>
+                <span>{tweet.replies?.length ?? 0}</span>
               </Link>
             </div>
-            <div className="flex flex-row gap-2 items-center">
-              <ArrowDownUp className="size-7 text-zinc-500 cursor-pointer" />
-              <span>3</span>
-            </div>
+            <form action={repostTweet}>
+              <button className="flex flex-row gap-2 items-center">
+                <Repeat className="size-7 text-zinc-500 cursor-pointer" />
+                <span>{tweet.reposts.length ?? 0}</span>
+              </button>
+              <input type="hidden" name="text" value={tweet.text} />
+              <input type="hidden" name="originalTweetId" value={tweet.id} />
+            </form>
             <div className="flex flex-row gap-2 items-center">
               <Heart className="size-7 text-zinc-500 cursor-pointer" />
               <span>9</span>
