@@ -5,6 +5,7 @@ export default defineConfig({
     "./src/db/schemas/tweet.schema.ts",
     "./src/db/schemas/user.schema.ts",
     "./src/db/schemas/users_follows.schema.ts",
+    "./src/db/schemas/users_liked_tweets.schema.ts",
   ],
   out: "",
   dialect: "postgresql",

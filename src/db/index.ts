@@ -1,4 +1,8 @@
 import {
+  usersLikedTweets,
+  usersLikedTweetsRelations,
+} from "./schemas/users_liked_tweets.schema";
+import {
   follows,
   usersFollowersRelations,
 } from "./schemas/users_follows.schema";
@@ -22,14 +26,18 @@ export const db = drizzle<{
   follows: typeof follows;
   usersRelations: typeof usersRelations;
   usersFollowersRelations: typeof usersFollowersRelations;
+  usersLikedTweetsRelations: typeof usersLikedTweetsRelations;
+  usersLikedTweets: typeof usersLikedTweets;
 }>(client, {
   schema: {
     tweets,
     users,
+    usersLikedTweets,
     tweetsRelations,
     follows,
     usersRelations,
     usersFollowersRelations,
+    usersLikedTweetsRelations,
   },
   logger: true,
 });

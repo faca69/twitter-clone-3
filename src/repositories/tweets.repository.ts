@@ -17,6 +17,7 @@ export const find = async (
         repliedTo: true,
         replies: true,
         reposts: true,
+        likes: true,
       },
     });
   } catch (error) {
