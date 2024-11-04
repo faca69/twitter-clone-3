@@ -16,5 +16,5 @@ export default defineConfig({
     database: "twitter_clone_3",
     port: 5432,
   },
-  verbose: true,
+  verbose: false,
 });

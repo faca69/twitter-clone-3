@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import { TweetModel } from "@/db/schemas/tweet.schema";
 import { TweetType } from "@/types/tweet-type.enum";
 import { submitReply } from "@/app/actions/reply.action";
+import { useSession } from "next-auth/react";
 
 type ComposeTweetProps = {
   onSubmit?: () => void;
@@ -21,6 +22,7 @@ export default function ComposeTweet({
   const [originalTweet, setOriginalTweet] = useState<TweetModel>();
   const [type, setType] = useState<TweetType>(TweetType.Tweet);
   const [repliedToId, setRepliedToId] = useState("");
+  const { data: session } = useSession();
 
   const searchParams = useSearchParams();
 
@@ -81,6 +83,8 @@ export default function ComposeTweet({
           />
 
           <input name="repliedToId" type="hidden" value={repliedToId} />
+          <input name="authorId" type="hidden" value={session?.user.id} />
+
           <Button
             className="mt-2 rounded-full bg-blue-500 hover:bg-blue-700 text-white"
             disabled={!value}
