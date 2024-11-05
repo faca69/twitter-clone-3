@@ -1,11 +1,11 @@
-import { NextApiRequest } from 'next';
-import { NextResponse } from 'next/server';
+import { getUsersLikedTweets } from "@/services/tweets.service";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-	req: NextApiRequest,
-	{ params: { userId } }: { params: { userId: string } }
+  req: NextRequest,
+  { params: { userId } }: { params: { userId: string } }
 ) {
-	const tweets = await getUsersLikedTweets(userId);
+  const tweets = await getUsersLikedTweets(userId);
 
-	return NextResponse.json(tweets);
+  return NextResponse.json(tweets);
 }
