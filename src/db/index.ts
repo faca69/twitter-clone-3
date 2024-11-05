@@ -1,40 +1,40 @@
 import {
-  usersLikedTweets,
-  usersLikedTweetsRelations,
-} from "./schemas/users_liked_tweets.schema";
-import {
   follows,
   usersFollowersRelations,
 } from "./schemas/users_follows.schema";
-import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
+import { drizzle } from "drizzle-orm/postgres-js";
 import { tweets, tweetsRelations } from "./schemas/tweet.schema";
-import { usersRelations, users } from "./schemas/user.schema";
+import { users, usersRelations } from "./schemas/user.schema";
+import {
+  usersLikedTweets,
+  usersLikedTweetsRelations,
+} from "./schemas/users_liked_tweets.schema";
 
 const client = postgres({
   host: "localhost",
   user: "postgres",
   password: "postgres",
-  database: "twitter_clone_3",
+  database: "twitter_clone_3_again",
   port: 5432,
 });
 
 export const db = drizzle<{
   tweets: typeof tweets;
-  tweetsRelations: typeof tweetsRelations;
   users: typeof users;
   follows: typeof follows;
+  usersLikedTweets: typeof usersLikedTweets;
+  tweetsRelations: typeof tweetsRelations;
   usersRelations: typeof usersRelations;
   usersFollowersRelations: typeof usersFollowersRelations;
   usersLikedTweetsRelations: typeof usersLikedTweetsRelations;
-  usersLikedTweets: typeof usersLikedTweets;
 }>(client, {
   schema: {
     tweets,
     users,
+    follows,
     usersLikedTweets,
     tweetsRelations,
-    follows,
     usersRelations,
     usersFollowersRelations,
     usersLikedTweetsRelations,

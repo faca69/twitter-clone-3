@@ -1,10 +1,11 @@
-import { db } from "@/db";
+import { desc, eq, ilike, and, ne } from "drizzle-orm";
+import { db } from "../db";
 import {
   TweetCreateModel,
   TweetModel,
   tweets,
-} from "@/db/schemas/tweet.schema";
-import { desc, eq, ilike } from "drizzle-orm";
+} from "../db/schemas/tweet.schema";
+import { TweetType } from "../types/tweet-type.enum";
 
 export const find = async (
   searchTerm?: string | null
@@ -19,6 +20,7 @@ export const find = async (
         reposts: true,
         likes: true,
         author: true,
+        originalTweet: true,
       },
     });
   } catch (error) {
@@ -27,17 +29,66 @@ export const find = async (
   }
 };
 
+export const findTweetsByUserId = (userId: string) => {
+  return db.query.tweets.findMany({
+    where: and(eq(tweets.authorId, userId), ne(tweets.type, TweetType.Reply)),
+    with: {
+      likes: true,
+      author: true,
+      replies: true,
+      reposts: true,
+      originalTweet: true,
+      repliedTo: true,
+    },
+  });
+};
+
+export const findRepliesByUserId = (userId: string) => {
+  return db.query.tweets.findMany({
+    where: and(eq(tweets.authorId, userId), eq(tweets.type, TweetType.Reply)),
+    with: {
+      likes: true,
+      author: true,
+      repliedTo: true,
+      replies: true,
+      reposts: true,
+      originalTweet: true,
+    },
+  });
+};
+
+export const findLikedTweetsByUserId = (userId: string) => {
+  return db.query.tweets.findMany({
+    where: and(eq(tweets.authorId, userId), eq(tweets.type, TweetType.Reply)),
+    with: {
+      likes: true,
+      author: true,
+      repliedTo: true,
+      replies: true,
+      reposts: true,
+    },
+  });
+};
+
 export const findOneById = (id: string) => {
   try {
     return db.query.tweets.findFirst({
       where: eq(tweets.id, id),
+      with: {
+        author: true,
+        likes: true,
+        reposts: true,
+        replies: true,
+        repliedTo: true,
+        originalTweet: true,
+      },
     });
   } catch (error) {
     console.error(error);
   }
 };
 
-export const create = async (tweet: TweetCreateModel) => {
+export const create = (tweet: TweetCreateModel): Promise<TweetModel> => {
   return db
     .insert(tweets)
     .values(tweet)

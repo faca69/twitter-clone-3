@@ -1,6 +1,5 @@
 import Tweet from "@/components/Tweet";
 import { getTweetById } from "@/services/tweets.service";
-import { Tweet as ITweet } from "../../../types/tweet.interface";
 
 type TweetDetailsProps = {
   params: { id: string };
@@ -11,5 +10,9 @@ export default async function TweetDetails({
 }: TweetDetailsProps) {
   const tweet = await getTweetById(id);
 
-  return <Tweet tweet={tweet as unknown as ITweet} />;
+  if (!tweet) {
+    return <h1>Tweet not found</h1>;
+  }
+
+  return <Tweet tweet={tweet} />;
 }

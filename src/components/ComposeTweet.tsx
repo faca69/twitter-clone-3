@@ -1,15 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar } from "./ui/avatar";
+import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
-import { submitTweet } from "@/app/actions/create-tweet";
 import { useSearchParams } from "next/navigation";
-import { TweetModel } from "@/db/schemas/tweet.schema";
-import { TweetType } from "@/types/tweet-type.enum";
-import { submitReply } from "@/app/actions/reply.action";
+import { TweetModel } from "../db/schemas/tweet.schema";
+import { TweetType } from "../types/tweet-type.enum";
+import { submitReply } from "../app/actions/reply.action";
 import { useSession } from "next-auth/react";
+import { UserModel } from "../db/schemas/user.schema";
+import LoadingSpinner from "./LoadingSpinner";
+import { submitTweet } from "@/app/actions/create-tweet";
 
 type ComposeTweetProps = {
   onSubmit?: () => void;
@@ -23,14 +26,24 @@ export default function ComposeTweet({
   const [type, setType] = useState<TweetType>(TweetType.Tweet);
   const [repliedToId, setRepliedToId] = useState("");
   const { data: session } = useSession();
+  const [user, setUser] = useState<UserModel>();
 
   const searchParams = useSearchParams();
 
   useEffect(() => {
+    if (!session?.user?.username) {
+      return;
+    }
+
+    fetch(`http://localhost:3000/api/users/${session.user.username}`)
+      .then((res) => res.json())
+      .then((resUser) => setUser(resUser));
+
     const typeParam = searchParams.get("type");
-    const id = searchParams.get("repliedToId");
 
     setType((typeParam as TweetType) || TweetType.Tweet);
+
+    const id = searchParams.get("repliedToId");
 
     if (type === TweetType.Reply && id) {
       setRepliedToId(id);
@@ -41,23 +54,27 @@ export default function ComposeTweet({
       setRepliedToId("");
       setOriginalTweet(undefined);
     }
-  }, [searchParams, type]);
+  }, [searchParams, type, session?.user?.username]);
+
+  if (!user) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <>
       {originalTweet && (
         <div>
-          <p className="italic text-zinc-400">{originalTweet.text}</p>
+          <p className="italic text-slate-400">{originalTweet.text}</p>
         </div>
       )}
-
-      <div className="flex flex-row p-4 gap-4 border-b border-zinc-800">
+      <div className="flex flex-row p-4 gap-4 border-b-2 border-gray-600">
         <div>
           <Avatar>
             <AvatarImage
-              src="https://github.com/shadcn.png"
-              className="w-12 h12 rounded-full"
+              src={user.avatar ?? `https://github.com/shadcn.png`}
+              className="w-12 h-12 rounded-full"
             />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarFallback>Avatar</AvatarFallback>
           </Avatar>
         </div>
         <form
@@ -70,23 +87,22 @@ export default function ComposeTweet({
             if (type === TweetType.Reply) {
               await submitReply(formData);
             }
+
             setValue("");
             onSubmit();
           }}
         >
           <Textarea
-            className="w-full border-t-0 border-l-0 border-r-0 "
+            className="w-full border-t-0 border-l-0 border-r-0 rounded-none"
             placeholder="What is happening?"
             name="text"
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
-
-          <input name="repliedToId" type="hidden" value={repliedToId} />
-          <input name="authorId" type="hidden" value={session?.user.id} />
-
+          <input type="hidden" name="repliedToId" value={repliedToId} />
+          <input type="hidden" name="authorId" value={session?.user.id} />
           <Button
-            className="mt-2 rounded-full bg-blue-500 hover:bg-blue-700 text-white"
+            className="mt-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
             disabled={!value}
           >
             Post

@@ -1,15 +1,24 @@
-import { UserCreateModel } from "@/db/schemas/user.schema";
+import { UserCreateModel } from "./../db/schemas/user.schema";
 import {
   create,
+  findById,
   findByUsername,
   update,
-} from "@/repositories/users.repository";
-
+} from "../repositories/users.repository";
+import {
+  create as createFollow,
+  deleteFollow,
+} from "../repositories/follows.repository";
 import bcrypt from "bcrypt";
 
 export async function getUserByUsername(username: string) {
   return findByUsername(username);
 }
+
+export async function getUserById(id: string) {
+  return findById(id);
+}
+
 export async function loginUser({
   username,
   password,
@@ -20,13 +29,13 @@ export async function loginUser({
   const existingUser = await getUserByUsername(username);
 
   if (!existingUser) {
-    throw new Error("Invalid Credentials");
+    throw new Error(`Invalid credentials`);
   }
 
   const isPasswordEqual = bcrypt.compareSync(password, existingUser.password);
 
   if (!isPasswordEqual) {
-    throw new Error("Invalid Credentials");
+    throw new Error(`Invalid credentials`);
   }
 
   return existingUser;
@@ -52,4 +61,12 @@ export async function updateUser(
   userData: Omit<UserCreateModel, "password">
 ) {
   return update(id, userData);
+}
+
+export async function followUser(followerId: string, followeeId: string) {
+  return createFollow(followerId, followeeId);
+}
+
+export async function unfollowUser(followerId: string, followeeId: string) {
+  return deleteFollow(followerId, followeeId);
 }

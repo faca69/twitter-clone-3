@@ -4,7 +4,7 @@ import { tweets } from "./tweet.schema";
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 
 export const usersLikedTweets = pgTable(
-  "users_liked_tweets",
+  "user_liked_tweets",
   {
     userId: uuid("user_id")
       .notNull()
@@ -25,7 +25,6 @@ export const usersLikedTweetsRelations = relations(
       fields: [usersLikedTweets.tweetId],
       references: [tweets.id],
     }),
-
     user: one(users, {
       fields: [usersLikedTweets.userId],
       references: [users.id],
@@ -33,7 +32,7 @@ export const usersLikedTweetsRelations = relations(
   })
 );
 
-export type usersLikedTweetsModel = InferSelectModel<typeof usersLikedTweets>;
-export type usersLikedTweetsCreateModel = InferInsertModel<
+export type UserLikedTweetsModel = InferSelectModel<typeof usersLikedTweets>;
+export type UserLikedTweetsCreateModel = InferInsertModel<
   typeof usersLikedTweets
 >;

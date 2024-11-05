@@ -1,5 +1,4 @@
 import Tweet from "./Tweet";
-import { Tweet as ITweet } from "../types/tweet.interface";
 import { TweetExtendedModel } from "@/db/schemas/tweet.schema";
 
 type TweetsProps = {

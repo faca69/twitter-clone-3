@@ -2,16 +2,15 @@
 import Tweets from "@/components/Tweets";
 import { Input } from "@/components/ui/input";
 import { TWEETS } from "@/data/test-data";
+import { TweetExtendedModel } from "@/db/schemas/tweet.schema";
 import { Tweet } from "@/types/tweet.interface";
 import React, { useEffect, useState } from "react";
 
 export default function Explore() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [tweets, setTweets] = useState<Tweet[]>([]);
+  const [tweets, setTweets] = useState<TweetExtendedModel[]>([]);
 
   useEffect(() => {
-    console.log("search term changed", searchTerm);
-
     fetch(`http://localhost:3000/api/tweets?searchTerm=${searchTerm}`)
       .then((res) => res.json())
       .then((tweetsResponse) => setTweets(tweetsResponse));

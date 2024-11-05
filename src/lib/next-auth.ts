@@ -21,8 +21,6 @@ export const options: NextAuthOptions = {
         password: {},
       },
       async authorize(credentials) {
-        console.log(credentials);
-
         if (!credentials) return null;
 
         const { username, password } = credentials;

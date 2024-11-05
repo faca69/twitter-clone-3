@@ -1,11 +1,12 @@
-import { getTweetById } from "@/services/tweets.service";
-import { NextRequest, NextResponse } from "next/server";
+import { NextApiRequest } from 'next';
+import { getTweetById } from '../../../../services/tweets.service';
+import { NextResponse } from 'next/server';
 
 export async function GET(
-  req: NextRequest,
-  { params: { id } }: { params: { id: string } }
+	req: NextApiRequest,
+	{ params: { id } }: { params: { id: string } }
 ) {
-  const tweet = await getTweetById(id);
+	const tweet = await getTweetById(id);
 
-  return NextResponse.json(tweet);
+	return NextResponse.json(tweet);
 }
