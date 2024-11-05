@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Input } from "../../components/ui/input";
 import registerUser from "../actions/register-user.action";
 
 export default function Register() {
@@ -22,13 +21,12 @@ export default function Register() {
         name="password"
         className="w-72"
       />
-
-      <Button
+      <button
         type="submit"
-        className="bg-zinc-900 rounded-md px-4 py-2 text-white w-24  hover:bg-white/40"
+        className="bg-blue-500 rounded-md px-4 py-2 text-white w-24"
       >
         Register
-      </Button>
+      </button>
     </form>
   );
 }

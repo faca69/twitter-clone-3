@@ -5,20 +5,28 @@ import Image from "next/image";
 import Link from "next/link";
 
 type ProfileProps = {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 };
-export default async function Profile({ params: { username } }: ProfileProps) {
+
+export default async function Profile({ params }: ProfileProps) {
+  const { username } = await params;
   const user = await getUserByUsername(username);
 
   if (!user) {
     return <h1>User not found</h1>;
   }
+
   return (
     <div>
       <div className="p-4">
         <div className="flex justify-between">
           <div className="w-[100px] h-[100px] rounded-full overflow-hidden border-solid border-zinc-600 border-2 shadow-md">
-            <Image alt="avatar" src={user.avatar} width={100} height={100} />
+            <Image
+              alt="avatar"
+              src={user.avatar || "https://github.com/shadcn.png"}
+              width={100}
+              height={100}
+            />
           </div>
 
           <Link
