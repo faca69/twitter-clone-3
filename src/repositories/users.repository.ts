@@ -15,3 +15,15 @@ export const create = (user: UserCreateModel): Promise<UserModel> => {
     .returning()
     .then((res) => res?.[0]);
 };
+
+export const update = async (
+  id: string,
+  userData: Omit<UserCreateModel, "password">
+) => {
+  return db
+    .update(users)
+    .set(userData)
+    .where(eq(users.id, id))
+    .returning()
+    .then((res) => res?.[0]);
+};
