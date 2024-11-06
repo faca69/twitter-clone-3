@@ -35,7 +35,9 @@ export default function ComposeTweet({
       return;
     }
 
-    fetch(`http://localhost:3000/api/users/${session.user.username}`)
+    fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${session.user.username}`
+    )
       .then((res) => res.json())
       .then((resUser) => setUser(resUser));
 
@@ -47,7 +49,7 @@ export default function ComposeTweet({
 
     if (type === TweetType.Reply && id) {
       setRepliedToId(id);
-      fetch(`http://localhost:3000/api/tweets/${id}`)
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/tweets/${id}`)
         .then((res) => res.json())
         .then((body) => setOriginalTweet(body));
     } else {

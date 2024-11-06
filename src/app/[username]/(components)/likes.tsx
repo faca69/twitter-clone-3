@@ -8,7 +8,7 @@ export default function Likes({ userId }: { userId: string }) {
   const [tweets, setTweets] = useState<TweetExtendedModel[]>([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/tweets/user/${userId}/likes`)
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/tweets/user/${userId}/likes`)
       .then((res) => res.json())
       .then((tweetsRes) => setTweets(tweetsRes));
   }, [userId]);
