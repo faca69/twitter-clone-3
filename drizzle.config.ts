@@ -15,6 +15,7 @@ export default defineConfig({
     password: process.env.q_DB_PASSWORD!,
     database: process.env.q_DB_DATABASE!,
     port: parseInt(process.env.q_DB_PORT!),
+    ssl: true,
   },
   verbose: false,
   tablesFilter: [`${process.env.q_DB_PREFIX}_.*`],
