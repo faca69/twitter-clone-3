@@ -34,6 +34,7 @@ export default function LoginForm() {
             username,
             password,
           });
+          console.log(response);
         }}
         disabled={!username || !password}
         className="bg-blue-500 rounded-md px-4 py-2 text-white w-20"
