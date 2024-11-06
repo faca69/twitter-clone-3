@@ -1,9 +1,7 @@
 "use client";
 import Tweets from "@/components/Tweets";
 import { Input } from "@/components/ui/input";
-import { TWEETS } from "@/data/test-data";
 import { TweetExtendedModel } from "@/db/schemas/tweet.schema";
-import { Tweet } from "@/types/tweet.interface";
 import React, { useEffect, useState } from "react";
 
 export default function Explore() {
