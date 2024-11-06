@@ -3,8 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params: { username } }: { params: { username: string } }
+  context: { params: { username: string } }
 ) {
+  const { username } = context.params;
   const user = await getUserByUsername(username);
 
   return NextResponse.json(user);
