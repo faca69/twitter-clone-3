@@ -1,8 +1,12 @@
-import { pgTable, uuid, primaryKey } from "drizzle-orm/pg-core";
+import { uuid, primaryKey, pgTableCreator } from "drizzle-orm/pg-core";
 import { users } from "./user.schema";
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 
-export const follows = pgTable(
+const createTable = pgTableCreator(
+  (name) => `${process.env.q_DB_PREFIX!}_${name}`
+);
+
+export const follows = createTable(
   "follows",
   {
     followerId: uuid("follower_id")

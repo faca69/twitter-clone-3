@@ -3,21 +3,17 @@ import {
   usersFollowersRelations,
 } from "./schemas/users_follows.schema";
 import postgres from "postgres";
-import { drizzle } from "drizzle-orm/postgres-js";
+import { drizzle } from "drizzle-orm/vercel-postgres";
 import { tweets, tweetsRelations } from "./schemas/tweet.schema";
 import { users, usersRelations } from "./schemas/user.schema";
 import {
   usersLikedTweets,
   usersLikedTweetsRelations,
 } from "./schemas/users_liked_tweets.schema";
+import { sql } from "@vercel/postgres";
+import { loadEnvConfig } from "@next/env";
 
-const client = postgres({
-  host: "localhost",
-  user: "postgres",
-  password: "postgres",
-  database: "twitter_clone_3_again",
-  port: 5432,
-});
+loadEnvConfig("");
 
 export const db = drizzle<{
   tweets: typeof tweets;
@@ -28,7 +24,7 @@ export const db = drizzle<{
   usersRelations: typeof usersRelations;
   usersFollowersRelations: typeof usersFollowersRelations;
   usersLikedTweetsRelations: typeof usersLikedTweetsRelations;
-}>(client, {
+}>(sql, {
   schema: {
     tweets,
     users,

@@ -1,9 +1,13 @@
-import { pgTable, uuid, primaryKey } from "drizzle-orm/pg-core";
+import { uuid, primaryKey, pgTableCreator } from "drizzle-orm/pg-core";
 import { users } from "./user.schema";
 import { tweets } from "./tweet.schema";
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 
-export const usersLikedTweets = pgTable(
+const createTable = pgTableCreator(
+  (name) => `${process.env.q_DB_PREFIX!}_${name}`
+);
+
+export const usersLikedTweets = createTable(
   "user_liked_tweets",
   {
     userId: uuid("user_id")

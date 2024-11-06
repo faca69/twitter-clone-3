@@ -10,11 +10,13 @@ export default defineConfig({
   out: "",
   dialect: "postgresql",
   dbCredentials: {
-    host: "localhost",
-    user: "postgres",
-    password: "postgres",
-    database: "twitter_clone_3_again",
-    port: 5432,
+    host: process.env.q_DB_HOST!,
+    user: process.env.q_DB_USER!,
+    password: process.env.q_DB_PASSWORD!,
+    database: process.env.q_DB_DATABASE!,
+    port: parseInt(process.env.q_DB_PORT!),
   },
   verbose: false,
+  tablesFilter: [`${process.env.q_DB_PREFIX}_.*`],
+  strict: true,
 });
