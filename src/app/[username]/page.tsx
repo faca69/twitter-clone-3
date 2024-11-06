@@ -9,7 +9,7 @@ import followUserAction from "../actions/follow-user.action";
 import TweetsSection from "./(components)/tweets-section";
 
 type ProfileProps = {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 };
 
 export default async function Profile({ params }: ProfileProps) {
