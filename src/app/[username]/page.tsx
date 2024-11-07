@@ -34,7 +34,10 @@ export default async function Profile({ params }: ProfileProps) {
           <div className="w-[100px] h-[100px] rounded-full overflow-hidden border-solid border-blue-500 border-2 shadow-md">
             <Image
               alt="avatar"
-              src={user.avatar ?? ""}
+              src={
+                user.avatar ??
+                "https://as2.ftcdn.net/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.webp"
+              }
               width={100}
               height={100}
             />

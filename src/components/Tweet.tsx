@@ -51,7 +51,10 @@ export default function Tweet({ tweet }: TweetProps) {
           <Link href={`/${tweet.author?.username}`}>
             <Avatar>
               <AvatarImage
-                src={tweet.author?.avatar ?? "https://github.com/shadcn.png"}
+                src={
+                  tweet.author?.avatar ??
+                  "https://as2.ftcdn.net/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.webp"
+                }
                 className="w-12 h-12 rounded-full"
               />
               <AvatarFallback>CN</AvatarFallback>

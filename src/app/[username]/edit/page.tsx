@@ -69,7 +69,7 @@ export default async function EditProfile({ params }: EditProfileProps) {
           type="url"
           name="avatar"
           id="avatar"
-          placeholder="http://example.com/avatar.png"
+          placeholder="https://as2.ftcdn.net/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.webp"
           defaultValue={user.avatar ?? ""}
         />
       </div>

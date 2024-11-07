@@ -1,12 +1,10 @@
 "use client";
 
 import {
-  AcademicCapIcon,
   ArrowLeftEndOnRectangleIcon,
   ArrowRightEndOnRectangleIcon,
   EnvelopeIcon,
-  MagnifyingGlassCircleIcon,
-  UserCircleIcon,
+  MagnifyingGlassIcon,
   UserPlusIcon,
 } from "@heroicons/react/24/outline";
 import { signOut, useSession } from "next-auth/react";
@@ -15,6 +13,7 @@ import { UserModel } from "../db/schemas/user.schema";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import { Sparkles, User } from "lucide-react";
 
 export default function Sidebar() {
   const { data: session } = useSession();
@@ -39,12 +38,12 @@ export default function Sidebar() {
         <>
           <li>
             <Link href="/" className="flex items-center gap-2">
-              <AcademicCapIcon className="size-10 mb-5" />
+              <Sparkles className="size-10 mb-5" />
             </Link>
           </li>
           <li>
             <Link href="/explore" className="flex items-center gap-2">
-              <MagnifyingGlassCircleIcon className="size-10" />
+              <MagnifyingGlassIcon className="size-10" />
               Explore
             </Link>
           </li>
@@ -59,16 +58,17 @@ export default function Sidebar() {
               href={`/${session.user.username}`}
               className="flex items-center gap-2"
             >
-              <UserCircleIcon className="size-10" />
+              <User className="size-10" />
               Profile
             </Link>
           </li>
           <li className="flex items-center gap-2">
+            <ArrowLeftEndOnRectangleIcon className="size-10" />
+
             <Button
-              className="flex items-center gap-2 bg-transparent text-white p-0 hover:bg-transparent"
+              className="flex items-center gap-2 bg-transparent text-white p-0 hover:bg-transparent "
               onClick={() => signOut()}
             >
-              <ArrowLeftEndOnRectangleIcon className="size-10" />
               Logout
             </Button>
           </li>
@@ -88,7 +88,10 @@ export default function Sidebar() {
               <div className="w-10 h-10 rounded-full overflow-hidden border-solid border-blue-500 border-2  shadow-md">
                 <Image
                   alt="avatar"
-                  src={user.avatar ?? "https://github.com/shadcn.png"}
+                  src={
+                    user.avatar ??
+                    "https://as2.ftcdn.net/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.webp"
+                  }
                   width={50}
                   height={50}
                 />

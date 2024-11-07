@@ -73,7 +73,10 @@ export default function ComposeTweet({
         <div>
           <Avatar>
             <AvatarImage
-              src={user.avatar ?? `https://github.com/shadcn.png`}
+              src={
+                user.avatar ??
+                `https://as2.ftcdn.net/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.webp`
+              }
               className="w-12 h-12 rounded-full"
             />
             <AvatarFallback>Avatar</AvatarFallback>

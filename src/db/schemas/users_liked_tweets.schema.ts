@@ -1,4 +1,4 @@
-import { uuid, primaryKey, pgTableCreator } from "drizzle-orm/pg-core";
+import { pgTable, uuid, primaryKey, pgTableCreator } from "drizzle-orm/pg-core";
 import { users } from "./user.schema";
 import { tweets } from "./tweet.schema";
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
@@ -18,6 +18,7 @@ export const usersLikedTweets = createTable(
       .references(() => tweets.id),
   },
   (t) => ({
+    // same as in plain SQL, the primary key is a combination of the two columns in a many-to-many relation
     pk: primaryKey({ columns: [t.userId, t.tweetId] }),
   })
 );

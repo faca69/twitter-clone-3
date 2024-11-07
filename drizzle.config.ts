@@ -5,7 +5,9 @@ export default defineConfig({
     "./src/db/schemas/tweet.schema.ts",
     "./src/db/schemas/user.schema.ts",
     "./src/db/schemas/users_follows.schema.ts",
-    "./src/db/schemas/users_liked_tweets.schema.ts",
+    "./src/db/schemas/users_liked_tweets.ts",
+    "./src/db/schemas/conversations.schema.ts",
+    "./src/db/schemas/messages.schema.ts",
   ],
   out: "",
   dialect: "postgresql",
@@ -18,6 +20,6 @@ export default defineConfig({
     ssl: true,
   },
   verbose: false,
-  tablesFilter: [`${process.env.q_DB_PREFIX}_.*`],
+  tablesFilter: [`${process.env.q_DB_PREFIX!}_.*`],
   strict: true,
 });

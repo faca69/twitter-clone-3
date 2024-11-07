@@ -3,6 +3,7 @@ import {
   create,
   findById,
   findByUsername,
+  findUsersByName,
   update,
 } from "../repositories/users.repository";
 import {
@@ -17,6 +18,9 @@ export async function getUserByUsername(username: string) {
 
 export async function getUserById(id: string) {
   return findById(id);
+}
+export async function searchUsers(searchTerm: string) {
+  return findUsersByName(searchTerm);
 }
 
 export async function loginUser({
