@@ -1,4 +1,6 @@
 import Tweet from "@/components/Tweet";
+import Tweets from "@/components/Tweets";
+import { TweetExtendedModel } from "@/db/schemas/tweet.schema";
 import { getTweetById } from "@/services/tweets.service";
 
 type TweetDetailsProps = {
@@ -13,5 +15,10 @@ export default async function TweetDetails({ params }: TweetDetailsProps) {
     return <h1>Tweet not found</h1>;
   }
 
-  return <Tweet tweet={tweet} />;
+  return (
+    <div>
+      <Tweet tweet={tweet} />
+      <Tweets tweets={(tweet.replies as TweetExtendedModel[]) ?? []} />
+    </div>
+  );
 }

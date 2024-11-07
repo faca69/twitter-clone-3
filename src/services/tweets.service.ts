@@ -57,7 +57,7 @@ export const getUsersLikedTweets = async (userId: string) => {
 export const getTweetById = async (id: string) => {
   const tweet = await findOneById(id);
 
-  return tweet as TweetExtendedModel;
+  return tweet as unknown as TweetExtendedModel;
 };
 
 export const createTweet = async (tweet: TweetCreateModel) => {

@@ -20,7 +20,11 @@ export const find = async (
         reposts: true,
         likes: true,
         author: true,
-        originalTweet: true,
+        originalTweet: {
+          with: {
+            author: true,
+          },
+        },
       },
     });
   } catch (error) {
@@ -37,7 +41,9 @@ export const findTweetsByUserId = (userId: string) => {
       author: true,
       replies: true,
       reposts: true,
-      originalTweet: true,
+      originalTweet: {
+        with: { author: true },
+      },
       repliedTo: true,
     },
   });
@@ -78,9 +84,23 @@ export const findOneById = (id: string) => {
         author: true,
         likes: true,
         reposts: true,
-        replies: true,
         repliedTo: true,
-        originalTweet: true,
+        originalTweet: {
+          with: {
+            author: true,
+          },
+        },
+        replies: {
+          with: {
+            author: true,
+            likes: true,
+            reposts: true,
+            repliedTo: true,
+            originalTweet: {
+              with: { author: true },
+            },
+          },
+        },
       },
     });
   } catch (error) {

@@ -43,15 +43,15 @@ export default function Tweet({ tweet }: TweetProps) {
       {tweet.type === TweetType.Repost && (
         <div className="flex flex-row gap-2 items-center text-sm font-bold text-slate-500 ml-10 mt-5 mb-2">
           <ArrowPathRoundedSquareIcon className="size-5 text-slate-500 cursor-pointer" />
-          {tweet.author.name} reposted
+          {tweet.author?.name} reposted
         </div>
       )}
       <div className="flex flex-row pl-4 pr-4 pb-4 gap-4 border-b-[1px] border-gray-600">
         <div>
-          <Link href={`/${tweet.author.username}`}>
+          <Link href={`/${tweet.author?.username}`}>
             <Avatar>
               <AvatarImage
-                src={tweet.author.avatar ?? "https://github.com/shadcn.png"}
+                src={tweet.author?.avatar ?? "https://github.com/shadcn.png"}
                 className="w-12 h-12 rounded-full"
               />
               <AvatarFallback>CN</AvatarFallback>
@@ -61,18 +61,18 @@ export default function Tweet({ tweet }: TweetProps) {
         <div className="w-full flex flex-col">
           <div className="flex flex-row gap-2 items-center">
             <h1 className="font-bold">
-              <Link href={`/${tweet.author.username}`}>
+              <Link href={`/${tweet.author?.username}`}>
                 {tweet.type === TweetType.Repost
                   ? tweet.originalTweet?.author?.name
-                  : tweet.author.name}
+                  : tweet.author?.name}
               </Link>
             </h1>
             <h2 className="text-slate-500 text-sm">
-              <Link href={`/${tweet.author.username}`}>
+              <Link href={`/${tweet.author?.username}`}>
                 @
                 {tweet.type === TweetType.Repost
                   ? tweet.originalTweet?.author?.username
-                  : tweet.author.username}
+                  : tweet.author?.username}
               </Link>
             </h2>
             <div className="text-slate-500 flex items-center justify-center">

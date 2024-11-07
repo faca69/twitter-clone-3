@@ -34,7 +34,7 @@ export default async function Profile({ params }: ProfileProps) {
           <div className="w-[100px] h-[100px] rounded-full overflow-hidden border-solid border-blue-500 border-2 shadow-md">
             <Image
               alt="avatar"
-              src={user.avatar ?? "./avatar-default.svg"}
+              src={user.avatar ?? ""}
               width={100}
               height={100}
             />
